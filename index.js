@@ -124,7 +124,6 @@ app.post('/login', (req, res, next) => {
 
 
 import UserMedRecord from './schemas/userMedRecord.js';
-import MongoStore from 'connect-mongo';
 function isAuthenticated(req, res, next) {
     console.log("isAuthenticated check, req.user:", req.user);
   if (req.isAuthenticated()) {
