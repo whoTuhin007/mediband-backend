@@ -78,6 +78,7 @@ app.get('/', (req, res) => {
 });
 
 app.post('/register', async (req, res) => {
+    consol4.log("Register endpoint hit with body:", req.body);
   const { fullname, email, password } = req.body;
 
   if (!fullname || !email || !password) {
