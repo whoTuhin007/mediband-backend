@@ -234,4 +234,3 @@ app.post("/upload", upload.array("files", 10), async (req, res) => {
   }
 });
 
-app.listen(5000, () => console.log("Server running..."));
