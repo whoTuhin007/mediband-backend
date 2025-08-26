@@ -13,7 +13,8 @@ const app = express();
 
 const allowedOrigins = [
   'http://localhost:3000',                      // dev
-  'https://mediband.vercel.app'  // prod
+  'https://mediband.vercel.app',
+  'https://mediband.netlify.app'  // prod
 ];
 
 app.use(cors({
