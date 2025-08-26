@@ -4,46 +4,46 @@ import passport from 'passport';
 import cors from 'cors';
 import express from 'express';
 import { upload } from './middleware/multerMiddleware.js';
-import MongoStore from 'connect-mongo';
 import dotenv from 'dotenv';
-dotenv.config();
 import session from 'express-session';
 
+dotenv.config();
 
 const app = express();
-const allowedOrigins = [
-  "http://localhost:3000", 
-  "https://mediband.vercel.app"
-];
 
-const url = process.env.MONGO_URL;
+const allowedOrigins = [
+  'http://localhost:3000',                      // dev
+  'https://mediband.vercel.app'  // prod
+];
 
 app.use(cors({
   origin: allowedOrigins,
   credentials: true
 }));
 
+app.use(express.json());
+
 app.use(session({
-  secret: process.env.SESSION_SECRET || "yourSecret",
+  secret: "yourSecret",
   resave: false,
   saveUninitialized: false,
-  store: MongoStore.create({
-    mongoUrl: url,
-    collectionName: "sessions"
-  }),
   cookie: {
-    secure: process.env.NODE_ENV === "production", // only true on HTTPS
+    secure: false ,     // true only in HTTPS
     httpOnly: true,
-    sameSite: "none"
+    sameSite: "lax"    // important for localhost cross-origin
   }
 }));
 
+
+
+
 app.use(passport.initialize());
 app.use(passport.session());
-
 passport.use(User.createStrategy());
+
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+
 // Passport config
 // passport.use(new LocalStrategy({ usernameField: 'email' }, User.authenticate()));
 // passport.serializeUser((user, done) => {
@@ -63,6 +63,7 @@ passport.deserializeUser(User.deserializeUser());
 // });
 
 const PORT = process.env.PORT || 5000;
+const url = process.env.MONGO_URL;
 
 // Connect to MongoDB first, then start server
 mongoose.connect(url)
@@ -78,7 +79,6 @@ app.get('/', (req, res) => {
 });
 
 app.post('/register', async (req, res) => {
-    console.log("Register endpoint hit with body:", req.body);
   const { fullname, email, password } = req.body;
 
   if (!fullname || !email || !password) {
