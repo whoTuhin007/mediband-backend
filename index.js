@@ -7,12 +7,16 @@ import { upload } from './middleware/multerMiddleware.js';
 import MongoStore from 'connect-mongo';
 import dotenv from 'dotenv';
 dotenv.config();
+import session from 'express-session';
+
 
 const app = express();
 const allowedOrigins = [
   "http://localhost:3000", 
   "https://mediband.vercel.app"
 ];
+
+const url = process.env.MONGO_URL;
 
 app.use(cors({
   origin: allowedOrigins,
@@ -59,7 +63,6 @@ passport.deserializeUser(User.deserializeUser());
 // });
 
 const PORT = process.env.PORT || 5000;
-const url = process.env.MONGO_URL;
 
 // Connect to MongoDB first, then start server
 mongoose.connect(url)
