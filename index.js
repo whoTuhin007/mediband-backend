@@ -11,7 +11,7 @@ const app = express();
 
 const allowedOrigins = [
   'http://localhost:3000',                      // dev
-  'https://mediband-frontend-fqh5.vercel.app'  // prod
+  'https://mediband.vercel.app'  // prod
 ];
 
 app.use(cors({
