@@ -35,7 +35,7 @@ app.use(session({
   saveUninitialized: false,
   cookie: {
     secure: false ,     // true only in HTTPS
-    httpOnly: true,
+    httpOnly: false,
     sameSite: "lax"    // important for localhost cross-origin
   }
 }));
